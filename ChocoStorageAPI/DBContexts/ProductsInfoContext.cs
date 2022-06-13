@@ -1,4 +1,5 @@
 ﻿using ChocoStorageAPI.Entities;
+using ChocoStorageAPI.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChocoStorageAPI.DBContexts
@@ -15,41 +16,45 @@ namespace ChocoStorageAPI.DBContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>();
+
             var products = new Product[4]
             {
-                new Product("Huevo de Pascua")
+                new Product()
                 {
                     Id = 1,
-                    ChocolateType = "Blanco",
-                    Weight = 70,
+                    ProductType = ProductTypes.HuevoDePascua,
+                    ChocolateType = ChocolateTypes.Blanco,
                     Price = 300,
                 },
 
-                new Product("Huevo de Pascua")
+                new Product()
                 {
                     Id = 2,
-                    ChocolateType = "Negro",
+                    ProductType = ProductTypes.HuevoDePascua,
+                    ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
                     Price = 300,
                 },
 
-                new Product("Huevo de Pascua")
+                new Product()
                 {
                     Id = 3,
-                    ChocolateType = "Negro",
+                    ProductType = ProductTypes.HuevoDePascua,
+                    ChocolateType = ChocolateTypes.Negro,
                     Weight = 120,
                     Price = 500,
                 },
 
-                new Product("Chocolate en rama")
+                new Product()
                 {
                     Id = 4,
-                    ChocolateType = "Negro",
+                    ProductType = ProductTypes.ChocolateEnRama,
+                    ChocolateType = ChocolateTypes.Blanco,
                     Weight = 70,
                     Price = 300,
                 }
             };
+            modelBuilder.Entity<Product>().HasData(products);
 
             base.OnModelCreating(modelBuilder);
 

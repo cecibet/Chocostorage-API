@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ChocoStorageAPI.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChocoStorageAPI.Entities
 {
@@ -8,16 +9,13 @@ namespace ChocoStorageAPI.Entities
         public int Id { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public ProductTypes ProductType { get; set; }
         [Required]
         [MaxLength(50)]
-        public string? ChocolateType { get; set; }
+        public ChocolateTypes ChocolateType { get; set; }
         [Required]
         public int Weight { get; set; }
         public float Price { get; set; }
-        public Product(string name)
-        {
-            Name = name.Trim();
-        }
+
     }
 }

@@ -11,9 +11,14 @@ namespace ChocoStorageAPI.Services
             _context = context;
         }
 
+        public Product? GetProduct(int id)
+        {
+            return _context.Products.Where(p => p.Id == id).FirstOrDefault(); ;
+        }
+
         public IEnumerable<Product> GetProducts()
         {
-            return _context.Products.OrderBy(x => x.Name).ToList(); ;
+            return _context.Products.OrderBy(x => x.ProductType).ToList(); ;
         }
 
         public bool SaveChange()
