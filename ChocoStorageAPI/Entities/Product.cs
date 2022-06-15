@@ -15,7 +15,10 @@ namespace ChocoStorageAPI.Entities
         public ChocolateTypes ChocolateType { get; set; }
         [Required]
         public int Weight { get; set; }
+        [Required]
         public float Price { get; set; }
+        [Required]
+        public int Stock { get; set; }
 
     }
 }

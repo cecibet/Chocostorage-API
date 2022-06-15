@@ -12,13 +12,8 @@ namespace ChocoStorageAPI.Controllers
     {
         private readonly IProductsDataRepository _productsDataRepository;
         private readonly IMapper _mapper;
-
-
-
-        private readonly ProductsData _productsData;
         public ProductsController(IProductsDataRepository productsDataRepository, IMapper mapper)
         {
-            //_productsData = productsData;
             _productsDataRepository = productsDataRepository;
             _mapper = mapper;
         }

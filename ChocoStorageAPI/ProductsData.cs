@@ -17,7 +17,8 @@ namespace ChocoStorageAPI
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 70,
-                    Price = 300
+                    Price = 300,
+                    Stock = 50
 
                 },
 
@@ -29,6 +30,7 @@ namespace ChocoStorageAPI
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
                     Price = 300,
+                    Stock = 50
                 },
 
                 new ProductDto()
@@ -38,6 +40,7 @@ namespace ChocoStorageAPI
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 120,
                     Price = 500,
+                    Stock = 20
                 },
 
                 new ProductDto()
@@ -47,6 +50,7 @@ namespace ChocoStorageAPI
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
                     Price = 300,
+                    Stock = 4
                 }
             };
         }

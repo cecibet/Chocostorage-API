@@ -12,6 +12,7 @@ namespace ChocoStorageAPI.Models
         public ChocolateTypes ChocolateType { get; set; } = ChocolateTypes.Blanco;
         public int Weight { get; set; }
         public int Price { get; set; }
+        public int Stock { get; set; }
 
     }
 }
