@@ -3,9 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace ChocoStorageAPI.Models
 {
-    public class ProductDto
+    public class ProductToCreateDto
     {
-        public int ProductId { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ProductTypes ProductType { get; set; } = ProductTypes.HuevoDePascua;
         [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -13,6 +12,5 @@ namespace ChocoStorageAPI.Models
         public int Weight { get; set; }
         public int UnitPrice { get; set; }
         public int Stock { get; set; }
-
     }
 }

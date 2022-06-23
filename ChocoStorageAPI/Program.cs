@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ProductsInfoContext>(dbContextOptions => dbContext
     builder.Configuration["ConnectionStrings:ProductsInfoDBConnectionString"]));
 
 builder.Services.AddScoped<IProductsDataRepository, ProductsDataRepository>();
+builder.Services.AddScoped<ISellsRepository, SellsRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.

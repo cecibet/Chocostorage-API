@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoStorageAPI.Controllers
 {
-
     [ApiController]
     [Route("api/products")]
     public class ProductsController : ControllerBase
@@ -25,7 +24,7 @@ namespace ChocoStorageAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetProduct")]
         public IActionResult GetProduct(int id)
 
         {
@@ -36,6 +35,55 @@ namespace ChocoStorageAPI.Controllers
             return Ok(_mapper.Map<ProductDto>(product));
         }
 
+        [HttpPost]
+        public ActionResult<ProductDto> AddProduct(ProductToCreateDto product)
+        {
+            var newProduct = _mapper.Map<Entities.Product>(product);
+
+            _productsDataRepository.AddProduct(newProduct);
+
+            _productsDataRepository.SaveChange();
+
+            var productToReturn = _mapper.Map<ProductDto>(newProduct);
+
+            return CreatedAtRoute(//CreatedAtRoute es para q devuelva 201, el 200 de post.
+                "GetPuntoDeInteres", //El primer parámetro es el Name del endpoint que hace el Get
+                new //El segundo los parametros q necesita ese endpoint
+                {
+                    id = productToReturn.ProductId
+                },
+                productToReturn);//El tercero es el objeto creado. 
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateProduct(int id, ProductToUpdateDto product)
+        {
+            if (!_productsDataRepository.ProductExists(id))
+                return NotFound();
+
+            var productInDB = _productsDataRepository.GetProduct(id);
+
+            _mapper.Map(product, productInDB);
+
+            _productsDataRepository.SaveChange();
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteProduct(int id)
+        {
+            if (!_productsDataRepository.ProductExists(id))
+                return NotFound();
+
+            var productToDelete = _productsDataRepository.GetProduct(id);
+
+            _productsDataRepository.DeleteProduct(productToDelete);
+            _productsDataRepository.SaveChange();
+
+            return NoContent();
+        }
 
     }
 

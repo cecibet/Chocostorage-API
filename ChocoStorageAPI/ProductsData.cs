@@ -6,6 +6,7 @@ namespace ChocoStorageAPI
     public class ProductsData
     {
         public List<ProductDto> Products { get; set; }
+        public List<SellDto> Sells { get; set; }
 
         public ProductsData()
         {
@@ -13,11 +14,11 @@ namespace ChocoStorageAPI
             {
                 new ProductDto()
                 {
-                    Id = 1,
+                    ProductId = 1,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 70,
-                    Price = 300,
+                    UnitPrice = 300,
                     Stock = 50
 
                 },
@@ -25,33 +26,60 @@ namespace ChocoStorageAPI
                 new ProductDto()
 
                 {
-                    Id = 2,
+                    ProductId = 2,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
-                    Price = 300,
+                    UnitPrice = 300,
                     Stock = 50
                 },
 
                 new ProductDto()
                 {
-                    Id = 3,
+                    ProductId = 3,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 120,
-                    Price = 500,
+                    UnitPrice = 500,
                     Stock = 20
                 },
 
                 new ProductDto()
                 {
-                    Id = 4,
+                    ProductId = 4,
                     ProductType = ProductTypes.ChocolateEnRama,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
-                    Price = 300,
+                    UnitPrice = 300,
                     Stock = 4
                 }
+            };
+
+            Sells = new List<SellDto>()
+            {
+                new SellDto()
+                {
+                   SellId = 1,
+                    Date = DateTime.Now,
+                    ProductId = 3,
+                    Quantity = 5,
+                    TotalCost = 2500,
+                    ShippingType = ShippingTypes.Retiro
+
+                },
+
+                new SellDto()
+
+                {
+                    SellId = 2,
+                    Date = DateTime.Now,
+                    ProductId = 4,
+                    Quantity = 5,
+                    TotalCost = 2500,
+                    ShippingType = ShippingTypes.ADomicilio
+                }
+
+
             };
         }
     }

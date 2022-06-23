@@ -2,190 +2,230 @@
 using ChocoStorageAPI.Enums;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ChocoStorageAPI.DBContexts
 
 {
     public class ProductsInfoContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<SellOrder> Sells { get; set; }
 
         public ProductsInfoContext(DbContextOptions<ProductsInfoContext> options) : base(options)
         {
 
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            var products = new Product[17]
-            {
+            var products = new Product[17] {
+
                 new Product()
                 {
-                    Id = 1,
+                    ProductId = 1,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 70,
-                    Price = 300,
+                    UnitPrice = 300,
                     Stock = 50
                 },
 
                 new Product()
                 {
-                    Id = 2,
+                    ProductId = 2,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 110,
-                    Price = 500,
+                    UnitPrice = 500,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 3,
+                    ProductId = 3,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
-                    Price = 300,
-                    Stock = 20
+                    UnitPrice = 300,
+                    Stock = 20,
                 },
 
                 new Product()
                 {
-                    Id = 4,
+                    ProductId = 4,
                     ProductType = ProductTypes.HuevoDePascua,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 110,
-                    Price = 500,
+                    UnitPrice = 500,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 5,
+                    ProductId = 5,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Amargo,
                     Weight = 120,
-                    Price = 400,
+                    UnitPrice = 400,
                     Stock = 4
                 },
 
                 new Product()
                 {
-                    Id = 6,
+                    ProductId = 6,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Amargo,
                     Weight = 180,
-                    Price = 600,
+                    UnitPrice = 600,
                     Stock = 20
                 },
                 new Product()
                 {
-                    Id = 7,
+                    ProductId = 7,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Amargo,
                     Weight = 300,
-                    Price = 750,
+                    UnitPrice = 750,
                     Stock = 20
                 },
                 new Product()
                 {
-                    Id = 8,
+                    ProductId = 8,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Mani,
                     Weight = 120,
-                    Price = 400,
+                    UnitPrice = 400,
                     Stock = 4
                 },
 
                 new Product()
                 {
-                    Id = 9,
+                    ProductId = 9,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Mani,
                     Weight = 180,
-                    Price = 600,
+                    UnitPrice = 600,
                     Stock = 20
                 },
                 new Product()
                 {
-                    Id = 10,
+                    ProductId = 10,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Mani,
                     Weight = 300,
-                    Price = 750,
+                    UnitPrice = 750,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 11,
+                    ProductId = 11,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Leche,
                     Weight = 120,
-                    Price = 400,
+                    UnitPrice = 400,
                     Stock = 4
                 },
 
                 new Product()
                 {
-                    Id = 12,
+                    ProductId = 12,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Leche,
                     Weight = 180,
-                    Price = 600,
+                    UnitPrice = 600,
                     Stock = 20
                 },
                 new Product()
                 {
-                    Id = 13,
+                    ProductId = 13,
                     ProductType = ProductTypes.ChocolateEnBarra,
                     ChocolateType = ChocolateTypes.Leche,
                     Weight = 300,
-                    Price = 750,
+                    UnitPrice = 750,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 14,
+                    ProductId = 14,
                     ProductType = ProductTypes.ChocolateEnRama,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 70,
-                    Price = 350,
+                    UnitPrice = 350,
                     Stock = 10
                 },
 
                 new Product()
                 {
-                    Id = 15,
+                    ProductId = 15,
                     ProductType = ProductTypes.ChocolateEnRama,
                     ChocolateType = ChocolateTypes.Blanco,
                     Weight = 160,
-                    Price = 500,
+                    UnitPrice = 500,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 16,
+                    ProductId = 16,
                     ProductType = ProductTypes.ChocolateEnRama,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 70,
-                    Price = 350,
+                    UnitPrice = 350,
                     Stock = 20
                 },
 
                 new Product()
                 {
-                    Id = 17,
+                    ProductId = 17,
                     ProductType = ProductTypes.ChocolateEnRama,
                     ChocolateType = ChocolateTypes.Negro,
                     Weight = 160,
-                    Price = 500,
+                    UnitPrice = 500,
                     Stock = 2
-                },
-            };
+                } };
+
             modelBuilder.Entity<Product>().HasData(products);
+
+
+            //modelBuilder.Entity<SellOrder>()
+            //    .HasOne(p => p.ProductInOrder)
+            //    .WithMany(s => s.SellOrders);
+
+            var sells = new SellOrder[2] {
+                new SellOrder()
+                {
+                    SellId = 1,
+                    Date = DateTime.Now,
+                    ProductId = products[1].ProductId,
+                    Quantity = 5,
+                    TotalCost = 2500,
+                    ShippingType = ShippingTypes.Retiro
+
+                },
+
+                new SellOrder()
+                {
+                    SellId = 2,
+                    Date = DateTime.Now,
+                    ProductId = products[2].ProductId,
+                    Quantity = 5,
+                    TotalCost = 3000,
+                    ShippingType = ShippingTypes.ADomicilio
+
+                }
+
+            };
+
+
+            modelBuilder.Entity<SellOrder>().HasData(sells);
 
             base.OnModelCreating(modelBuilder);
 

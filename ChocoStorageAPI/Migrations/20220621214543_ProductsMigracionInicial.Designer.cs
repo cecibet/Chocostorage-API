@@ -3,6 +3,7 @@ using System;
 using ChocoStorageAPI.DBContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChocoStorageAPI.Migrations
 {
     [DbContext(typeof(ProductsInfoContext))]
-    partial class ProductsInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20220621214543_ProductsMigracionInicial")]
+    partial class ProductsMigracionInicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
@@ -223,7 +225,8 @@ namespace ChocoStorageAPI.Migrations
 
                     b.HasKey("SellId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Sells");
 
@@ -231,7 +234,7 @@ namespace ChocoStorageAPI.Migrations
                         new
                         {
                             SellId = 1,
-                            Date = new DateTime(2022, 6, 22, 20, 16, 57, 948, DateTimeKind.Local).AddTicks(9053),
+                            Date = new DateTime(2022, 6, 21, 18, 45, 43, 502, DateTimeKind.Local).AddTicks(778),
                             ProductId = 2,
                             Quantity = 5,
                             ShippingType = 0,
@@ -240,7 +243,7 @@ namespace ChocoStorageAPI.Migrations
                         new
                         {
                             SellId = 2,
-                            Date = new DateTime(2022, 6, 22, 20, 16, 57, 948, DateTimeKind.Local).AddTicks(9065),
+                            Date = new DateTime(2022, 6, 21, 18, 45, 43, 502, DateTimeKind.Local).AddTicks(789),
                             ProductId = 3,
                             Quantity = 5,
                             ShippingType = 1,
@@ -251,8 +254,8 @@ namespace ChocoStorageAPI.Migrations
             modelBuilder.Entity("ChocoStorageAPI.Entities.SellOrder", b =>
                 {
                     b.HasOne("ChocoStorageAPI.Entities.Product", "ProductInOrder")
-                        .WithMany("SellOrders")
-                        .HasForeignKey("ProductId")
+                        .WithOne("SellOrder")
+                        .HasForeignKey("ChocoStorageAPI.Entities.SellOrder", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -261,7 +264,7 @@ namespace ChocoStorageAPI.Migrations
 
             modelBuilder.Entity("ChocoStorageAPI.Entities.Product", b =>
                 {
-                    b.Navigation("SellOrders");
+                    b.Navigation("SellOrder");
                 });
 #pragma warning restore 612, 618
         }

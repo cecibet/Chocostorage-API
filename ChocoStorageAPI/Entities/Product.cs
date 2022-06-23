@@ -6,7 +6,7 @@ namespace ChocoStorageAPI.Entities
     public class Product
     {
         [Key]
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         [Required]
         [MaxLength(50)]
         public ProductTypes ProductType { get; set; }
@@ -16,9 +16,9 @@ namespace ChocoStorageAPI.Entities
         [Required]
         public int Weight { get; set; }
         [Required]
-        public float Price { get; set; }
+        public float UnitPrice { get; set; }
         [Required]
         public int Stock { get; set; }
-
+        public List<SellOrder>? SellOrders { get; set; }
     }
 }
