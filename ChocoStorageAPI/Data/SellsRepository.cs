@@ -1,7 +1,8 @@
 ﻿using ChocoStorageAPI.DBContexts;
 using ChocoStorageAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace ChocoStorageAPI.Services
+namespace ChocoStorageAPI.Data
 {
     public class SellsRepository : ISellsRepository
     {
@@ -10,6 +11,7 @@ namespace ChocoStorageAPI.Services
         {
             _context = context;
         }
+
         public SellOrder? GetSell(int sellId)
         {
             return _context.Sells.Where(s => s.SellId == sellId).FirstOrDefault(); ;
@@ -17,7 +19,7 @@ namespace ChocoStorageAPI.Services
 
         public IEnumerable<SellOrder> GetSells()
         {
-            return _context.Sells.OrderBy(s => s.SellId).ToList(); ;
+            return _context.Sells.OrderBy(s => s.SellId).ToList();
         }
 
         public bool SaveChange()
@@ -26,38 +28,34 @@ namespace ChocoStorageAPI.Services
         }
         public Product? GetProduct(int productId)
         {
-            return _context.Products.Where(p => p.ProductId == productId).FirstOrDefault(); ;
+            return _context.Products.FirstOrDefault(p => p.ProductId == productId);
         }
 
         public void AddSellOrder(SellOrder sellOrder)
         {
             var product = GetProduct(sellOrder.ProductId);
+
             if (product != null)
                 _context.Add(sellOrder);
+
         }
-        public void DeleteSell(SellOrder sellOrder)
+
+        public void DeleteSell(int sellId)
         {
-            _context.Sells.Remove(sellOrder);
+            var sell = _context.Sells.Find(sellId);
+            if (sell != null)
+                _context.Sells.Remove(sell);
         }
 
-        public bool ProductExists(int idProduct)
-        {
-            return _context.Products.Any(p => p.ProductId == idProduct);
-
-        }
-
-        public SellOrder? GetSellById(SellOrder sellOrder)
-        {
-            return _context.Sells
-                .Where(p => p.ProductId == sellOrder.ProductId)
-                .FirstOrDefault(); ;
-
-        }
 
         public bool SellExists(int id)
         {
             return _context.Sells.Any(p => p.SellId == id);
 
+        }
+        public void UpdateSell(SellOrder sellOrder)
+        {
+            _context.Entry(sellOrder).State = EntityState.Modified;
         }
     }
 }

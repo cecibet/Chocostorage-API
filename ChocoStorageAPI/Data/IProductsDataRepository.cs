@@ -1,5 +1,5 @@
 ﻿using ChocoStorageAPI.Entities;
-namespace ChocoStorageAPI.Services
+namespace ChocoStorageAPI.Data
 
 {
     public interface IProductsDataRepository
@@ -7,9 +7,8 @@ namespace ChocoStorageAPI.Services
         public IEnumerable<Product> GetProducts();
         public Product? GetProduct(int idProduct);
         public void AddProduct(Product product);
+        public void DeleteProduct(int productId);
+        public void UpdateProduct(Product product);
         public bool SaveChange();
-        public bool ProductExists(int id);
-        void DeleteProduct(Product product);
-
     }
 }

@@ -1,7 +1,8 @@
 ﻿using ChocoStorageAPI.DBContexts;
 using ChocoStorageAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace ChocoStorageAPI.Services
+namespace ChocoStorageAPI.Data
 {
     public class ProductsDataRepository : IProductsDataRepository
     {
@@ -13,7 +14,7 @@ namespace ChocoStorageAPI.Services
 
         public Product? GetProduct(int productId)
         {
-            return _context.Products.Where(p => p.ProductId == productId).FirstOrDefault(); ;
+            return _context.Products.FirstOrDefault(p => p.ProductId == productId);
         }
 
         public IEnumerable<Product> GetProducts()
@@ -21,10 +22,11 @@ namespace ChocoStorageAPI.Services
             return _context.Products.OrderBy(x => x.ProductType).ToList(); ;
         }
 
-
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(int productId)
         {
-            _context.Products.Remove(product);
+            var product = _context.Products.Find(productId);
+            if (product != null)
+                _context.Products.Remove(product);
         }
 
         public void AddProduct(Product product)
@@ -37,10 +39,9 @@ namespace ChocoStorageAPI.Services
             return (_context.SaveChanges() >= 0);
         }
 
-        public bool ProductExists(int idProduct)
+        public void UpdateProduct(Product product)
         {
-            return _context.Products.Any(p => p.ProductId == idProduct);
-
+            _context.Entry(product).State = EntityState.Modified;
         }
 
     }

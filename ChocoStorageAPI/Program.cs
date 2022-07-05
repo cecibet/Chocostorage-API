@@ -1,4 +1,5 @@
 using ChocoStorageAPI;
+using ChocoStorageAPI.Data;
 using ChocoStorageAPI.DBContexts;
 using ChocoStorageAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,14 @@ builder.Services.AddSingleton<ProductsData>();
 builder.Services.AddDbContext<ProductsInfoContext>(dbContextOptions => dbContextOptions.UseSqlite(
     builder.Configuration["ConnectionStrings:ProductsInfoDBConnectionString"]));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<IProductsDataRepository, ProductsDataRepository>();
 builder.Services.AddScoped<ISellsRepository, SellsRepository>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<ISellServices, SellServices>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
+
 
 // Add services to the container.
 

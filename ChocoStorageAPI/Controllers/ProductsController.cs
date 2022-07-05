@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChocoStorageAPI.Data;
 using ChocoStorageAPI.Models;
 using ChocoStorageAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +11,20 @@ namespace ChocoStorageAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductsDataRepository _productsDataRepository;
+        private readonly IProductServices _productServices;
         private readonly IMapper _mapper;
-        public ProductsController(IProductsDataRepository productsDataRepository, IMapper mapper)
+        public ProductsController(IProductServices productServices, IProductsDataRepository productsDataRepository, IMapper mapper)
         {
             _productsDataRepository = productsDataRepository;
+            _productServices = productServices;
             _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<ProductDto>> GetProducts() //JsonResults implementa IActionResults
         {
-            var products = _productsDataRepository.GetProducts();
-            return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
+            var products = _productServices.GetProducts();
+            return Ok(products);
         }
 
         [HttpGet("{id}", Name = "GetProduct")]
@@ -47,7 +50,7 @@ namespace ChocoStorageAPI.Controllers
             var productToReturn = _mapper.Map<ProductDto>(newProduct);
 
             return CreatedAtRoute(//CreatedAtRoute es para q devuelva 201, el 200 de post.
-                "GetPuntoDeInteres", //El primer parámetro es el Name del endpoint que hace el Get
+                "GetProduct", //El primer parámetro es el Name del endpoint que hace el Get
                 new //El segundo los parametros q necesita ese endpoint
                 {
                     id = productToReturn.ProductId
@@ -55,32 +58,12 @@ namespace ChocoStorageAPI.Controllers
                 productToReturn);//El tercero es el objeto creado. 
         }
 
-        [HttpPut("{id}")]
-        public ActionResult UpdateProduct(int id, ProductToUpdateDto product)
-        {
-            if (!_productsDataRepository.ProductExists(id))
-                return NotFound();
-
-            var productInDB = _productsDataRepository.GetProduct(id);
-
-            _mapper.Map(product, productInDB);
-
-            _productsDataRepository.SaveChange();
-
-            return NoContent();
-        }
-
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteProduct(int id)
+        public ActionResult DeleteProduct(int productId)
         {
-            if (!_productsDataRepository.ProductExists(id))
-                return NotFound();
 
-            var productToDelete = _productsDataRepository.GetProduct(id);
-
-            _productsDataRepository.DeleteProduct(productToDelete);
-            _productsDataRepository.SaveChange();
+            _productServices.DeleteProduct(productId);
 
             return NoContent();
         }

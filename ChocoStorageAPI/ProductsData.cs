@@ -63,7 +63,6 @@ namespace ChocoStorageAPI
                     Date = DateTime.Now,
                     ProductId = 3,
                     Quantity = 5,
-                    TotalCost = 2500,
                     ShippingType = ShippingTypes.Retiro
 
                 },
@@ -75,7 +74,6 @@ namespace ChocoStorageAPI
                     Date = DateTime.Now,
                     ProductId = 4,
                     Quantity = 5,
-                    TotalCost = 2500,
                     ShippingType = ShippingTypes.ADomicilio
                 }
 

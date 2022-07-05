@@ -13,6 +13,7 @@ namespace ChocoStorageAPI.Entities
 
         [Required]
         public int Quantity { get; set; }
+
         public float TotalCost { get; set; }
 
         public ShippingTypes? ShippingType { get; set; }
