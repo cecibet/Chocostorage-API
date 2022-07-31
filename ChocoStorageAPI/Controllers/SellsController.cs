@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using ChocoStorageAPI.Models;
 using ChocoStorageAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoStorageAPI.Controllers
 {
     [ApiController]
     [Route("api/sells")]
+    [Authorize]
     public class SellsController : ControllerBase
     {
         private readonly IMapper _mapper;

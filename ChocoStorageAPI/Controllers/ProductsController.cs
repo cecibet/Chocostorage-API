@@ -2,11 +2,13 @@
 using ChocoStorageAPI.Data;
 using ChocoStorageAPI.Models;
 using ChocoStorageAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChocoStorageAPI.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
