@@ -1,0 +1,27 @@
+﻿using ChocoStorageAPI.DBContexts;
+using ChocoStorageAPI.Entities;
+using ChocoStorageAPI.Models;
+using static ChocoStorageAPI.Controllers.AuthenticationController;
+
+namespace ChocoStorageAPI.Data
+{
+    public class UsersRepository : IUsersRepository
+    {
+        internal readonly ProductsInfoContext _context;
+
+        public UsersRepository (ProductsInfoContext context)
+        {
+            this._context = context;
+        }
+
+        public User? ValidateUser(AuthenticationRequestBody authRequestBody)
+        {
+            return _context.Users.FirstOrDefault(p => p.UserName == authRequestBody.UserName && p.Password == authRequestBody.Password);
+        }
+
+        public bool SaveChange()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+    }
+}

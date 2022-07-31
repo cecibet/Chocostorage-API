@@ -1,12 +1,21 @@
-﻿namespace ChocoStorageAPI.Entities
+﻿using ChocoStorageAPI.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace ChocoStorageAPI.Entities
 {
     public class User
     {
+        [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string SurName { get; set; }
+        [MaxLength(32)]
+        public string? Name { get; set; }
+        [MaxLength(32)]
+        public string? SurName { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
         public string UserName { get; set; }
-        public string TipoUsuario { get; set; }
+        public UserTypes Role { get; set; }
+
     }
 }

@@ -10,6 +10,7 @@ namespace ChocoStorageAPI.DBContexts
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<SellOrder> Sells { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ProductsInfoContext(DbContextOptions<ProductsInfoContext> options) : base(options)
         {
@@ -226,6 +227,42 @@ namespace ChocoStorageAPI.DBContexts
 
 
             modelBuilder.Entity<SellOrder>().HasData(sells);
+
+            var users = new User[3] {
+                new User()
+                {
+                    Id = 1,
+                    Name = "Cecilia",
+                    SurName = "Bettiol",
+                    Password = "ceci123",
+                    UserName = "cecibet",
+                    Role = UserTypes.supervisor
+
+                },
+                 new User()
+                {
+                    Id = 2,
+                    Name = "Fabrizio",
+                    SurName = "De Lisa",
+                    Password = "fabra456",
+                    UserName = "fadelis",
+                    Role = UserTypes.employee
+
+                },
+                  new User()
+                {
+                    Id = 3,
+                    Name = "Lucas",
+                    SurName = "De Lorenzi",
+                    Password = "lucas789",
+                    UserName = "lukedelo",
+                    Role = UserTypes.employee
+
+                }
+
+            };
+
+            modelBuilder.Entity<User>().HasData(users);
 
             base.OnModelCreating(modelBuilder);
 
