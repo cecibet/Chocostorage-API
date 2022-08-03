@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 //using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); // agregué, copiado del repo de consulta alumnos
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(setupAction =>
@@ -37,7 +39,7 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 builder.Services.AddSingleton<ProductsData>();
 //builder.Services.AddDbContext<ProductsInfoContext>();
-builder.Services.AddDbContext<ProductsInfoContext>(dbContextOptions => dbContextOptions.UseSqlite(
+builder.Services.AddDbContext<Context>(dbContextOptions => dbContextOptions.UseSqlite(
     builder.Configuration["ConnectionStrings:ProductsInfoDBConnectionString"]));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -59,11 +61,12 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
 
 builder.Services.AddScoped<IProductsDataRepository, ProductsDataRepository>();
 builder.Services.AddScoped<ISellsRepository, SellsRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 builder.Services.AddScoped<ISellServices, SellServices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 
-
+builder.Services.AddScoped<IAuthenticationServices, AuthenticationServices>();
 // Add services to the container.
 
 

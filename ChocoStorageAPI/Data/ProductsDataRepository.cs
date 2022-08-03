@@ -6,8 +6,8 @@ namespace ChocoStorageAPI.Data
 {
     public class ProductsDataRepository : IProductsDataRepository
     {
-        private readonly ProductsInfoContext _context;
-        public ProductsDataRepository(ProductsInfoContext context)
+        private readonly Context _context;
+        public ProductsDataRepository(Context context)
         {
             _context = context;
         }

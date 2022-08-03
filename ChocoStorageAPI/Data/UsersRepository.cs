@@ -1,15 +1,14 @@
 ﻿using ChocoStorageAPI.DBContexts;
 using ChocoStorageAPI.Entities;
 using ChocoStorageAPI.Models;
-using static ChocoStorageAPI.Controllers.AuthenticationController;
 
 namespace ChocoStorageAPI.Data
 {
     public class UsersRepository : IUsersRepository
     {
-        internal readonly ProductsInfoContext _context;
+        internal readonly Context _context;
 
-        public UsersRepository (ProductsInfoContext context)
+        public UsersRepository (Context context)
         {
             this._context = context;
         }

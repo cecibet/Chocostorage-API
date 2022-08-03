@@ -4,11 +4,11 @@ using ChocoStorageAPI.Models;
 
 namespace ChocoStorageAPI.Services
 {
-    public class AutenticacionService : IAuthenticationServices
+    public class AuthenticationServices : IAuthenticationServices
     {
         private readonly IUsersRepository _userRepository;
 
-        public AutenticacionService(IUsersRepository userRepository)
+        public AuthenticationServices(IUsersRepository userRepository)
         {
             _userRepository = userRepository;
         }

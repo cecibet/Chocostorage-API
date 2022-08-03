@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 namespace ChocoStorageAPI.DBContexts
 
 {
-    public class ProductsInfoContext : DbContext
+    public class Context : DbContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<SellOrder> Sells { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public ProductsInfoContext(DbContextOptions<ProductsInfoContext> options) : base(options)
+        public Context(DbContextOptions<Context> options) : base(options)
         {
 
         }
