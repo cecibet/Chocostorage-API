@@ -6,8 +6,8 @@ namespace ChocoStorageAPI.Data
 {
     public class SellsRepository : ISellsRepository
     {
-        private readonly ProductsInfoContext _context;
-        public SellsRepository(ProductsInfoContext context)
+        private readonly Context _context;
+        public SellsRepository(Context context)
         {
             _context = context;
         }

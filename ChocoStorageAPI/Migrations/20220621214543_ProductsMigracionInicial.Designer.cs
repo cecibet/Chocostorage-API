@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ChocoStorageAPI.Migrations
 {
-    [DbContext(typeof(ProductsInfoContext))]
+    [DbContext(typeof(Context))]
     [Migration("20220621214543_ProductsMigracionInicial")]
     partial class ProductsMigracionInicial
     {
