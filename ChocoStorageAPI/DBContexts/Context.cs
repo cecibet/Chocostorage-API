@@ -196,10 +196,6 @@ namespace ChocoStorageAPI.DBContexts
             modelBuilder.Entity<Product>().HasData(products);
 
 
-            //modelBuilder.Entity<SellOrder>()
-            //    .HasOne(p => p.ProductInOrder)
-            //    .WithMany(s => s.SellOrders);
-
             var sells = new SellOrder[2] {
                 new SellOrder()
                 {
