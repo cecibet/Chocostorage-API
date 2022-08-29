@@ -10,7 +10,7 @@ namespace ChocoStorageAPI.Services
         IEnumerable<SellDto> GetSells();
         public void DeleteSell(int sellId);
 
-        public SellDto UpdateSell(SellToUpdateDto sellToUpdateDto, int sellId);
+        public void UpdateSell(SellToUpdateDto sellToUpdateDto, int sellId);
 
     }
 }

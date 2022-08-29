@@ -53,11 +53,11 @@ namespace ChocoStorageAPI.Services
             return _mapper.Map<SellDto>(newSell);
         }
 
-        public SellDto UpdateSell(SellToUpdateDto sellToUpdateDto, int sellId)
+        public void UpdateSell(SellToUpdateDto sellToUpdateDto, int sellId)
         {
             var sellOrderToUpdate = _sellsRepository.GetSell(sellId);
 
-            _mapper.Map<SellOrder>(sellToUpdateDto);
+            _mapper.Map(sellToUpdateDto, sellOrderToUpdate);
 
             var unitPrice = _productsDataRepository.GetProducts()
                         .Where(p => p.ProductId == sellOrderToUpdate.ProductId)
@@ -71,9 +71,6 @@ namespace ChocoStorageAPI.Services
                 _sellsRepository.UpdateSell(sellOrderToUpdate);
                 _sellsRepository.SaveChange();
             }
-
-            return _mapper.Map<SellDto>(sellOrderToUpdate);
-
         }
 
         public void DeleteSell(int sellId)
