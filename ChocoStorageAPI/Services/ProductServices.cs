@@ -22,25 +22,39 @@ namespace ChocoStorageAPI.Services
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public ProductDto? GetProduct(int id)
+        public ProductDto GetProduct(int id)
         {
             var product = _productsDataRepository.GetProduct(id);
-            return _mapper.Map<ProductDto?>(product);
+            return _mapper.Map<ProductDto>(product);
         }
 
-        public ProductDto AddProduct(ProductToCreateDto productToCreateDto)
+        public ProductDto? AddProduct(ProductToCreateDto productToCreateDto)
         {
             var newProduct = _mapper.Map<Product>(productToCreateDto);
-
-            return _mapper.Map<ProductDto>(newProduct);
+            _productsDataRepository.AddProduct(newProduct);
+            if (_productsDataRepository.SaveChange())
+            {
+                return _mapper.Map<ProductDto>(newProduct);
+            }
+            return null;
         }
 
-        public void DeleteProduct(int productId)
+        public void UpdateProduct(ProductToUpdateDto productToUpd, int productId)
         {
-            _productsDataRepository.DeleteProduct(productId);
+            var product = _productsDataRepository.GetProduct(productId);
+            _mapper.Map(productToUpd, product);
+            _productsDataRepository.UpdateProduct(product);
             _productsDataRepository.SaveChange();
         }
-
+        public void DeleteProduct(int id)
+        {
+            _productsDataRepository.DeleteProduct(id);
+            _productsDataRepository.SaveChange();
+        }
+        public bool ProductExists(int id)
+        {
+            return _productsDataRepository.ProductExists(id);
+        }
     }
 
 
