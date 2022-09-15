@@ -39,7 +39,6 @@ namespace ChocoStorageAPI.Controllers
         [HttpPost]
         public ActionResult<ProductDto> AddProduct(ProductToCreateDto product)
         {
-            //agregar funcion productAlreadyExists en services (preguntar a nico como usar un tipo que admita 2)
             var productExists = _productServices.GetProducts().FirstOrDefault(x => x.ProductType == product.ProductType && x.ChocolateType == product.ChocolateType && x.Weight == product.Weight);
             var newProduct = _productServices.AddProduct(product);
             if (productExists is not null)
