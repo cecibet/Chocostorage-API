@@ -25,25 +25,22 @@ namespace ChocoStorageAPI.Controllers
         [HttpPost("authenticate")] 
         public ActionResult<string> Autenticar(AuthenticationRequestBody authenticationRequestBody)
         {
-            //Paso 1: Validamos las credenciales
             var user = ValidateCredentials(authenticationRequestBody);
 
             if (user is null)
                 return Unauthorized();
 
-            //Paso 2: Crear el token
             var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Authentication:SecretForKey"])); //Traemos la SecretKey del Json. agregar antes: using Microsoft.IdentityModel.Tokens;
 
             var credentials = new SigningCredentials(securityPassword, SecurityAlgorithms.HmacSha256);
 
-            //Los claims son datos en clave->valor que nos permite guardar data del usuario.
             var claimsForToken = new List<Claim>();
             claimsForToken.Add(new Claim("sub", user.Id.ToString()));
             claimsForToken.Add(new Claim("given_name", user.Name));
             claimsForToken.Add(new Claim("family_name", user.SurName));
             claimsForToken.Add(new Claim("role", user.Role.ToString()));
 
-            var jwtSecurityToken = new JwtSecurityToken( //creacion del token con todos los datos.
+            var jwtSecurityToken = new JwtSecurityToken(
               _config["Authentication:Issuer"],
               _config["Authentication:Audience"],
               claimsForToken,
@@ -51,8 +48,7 @@ namespace ChocoStorageAPI.Controllers
               DateTime.UtcNow.AddHours(1),
               credentials);
 
-            var tokenToReturn = new JwtSecurityTokenHandler() //Pasamos el token a string
-                .WriteToken(jwtSecurityToken);
+            var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 
             return Ok(tokenToReturn);
         }
