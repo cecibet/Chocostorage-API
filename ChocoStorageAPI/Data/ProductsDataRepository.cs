@@ -12,9 +12,9 @@ namespace ChocoStorageAPI.Data
             _context = context;
         }
 
-        public Product? GetProduct(int productId)
+        public Product GetProduct(int productId)
         {
-            return _context.Products.FirstOrDefault(p => p.ProductId == productId);
+            return _context.Products.First(p => p.ProductId == productId);
         }
 
         public IEnumerable<Product> GetProducts()
@@ -22,11 +22,13 @@ namespace ChocoStorageAPI.Data
             return _context.Products.OrderBy(x => x.ProductType).ToList(); ;
         }
 
-        public void DeleteProduct(int productId)
+        public void DeleteProduct(int id)
         {
-            var product = _context.Products.Find(productId);
+            var product = _context.Products.Find(id);
             if (product != null)
+            {
                 _context.Products.Remove(product);
+            }
         }
 
         public void AddProduct(Product product)
@@ -42,6 +44,12 @@ namespace ChocoStorageAPI.Data
         public void UpdateProduct(Product product)
         {
             _context.Entry(product).State = EntityState.Modified;
+        }
+
+        public bool ProductExists(int id)
+        {
+            var product = _context.Products.Find(id);
+            return product != null;
         }
 
     }

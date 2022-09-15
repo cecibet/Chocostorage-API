@@ -12,18 +12,14 @@ namespace ChocoStorageAPI.Controllers
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductsDataRepository _productsDataRepository;
         private readonly IProductServices _productServices;
-        private readonly IMapper _mapper;
-        public ProductsController(IProductServices productServices, IProductsDataRepository productsDataRepository, IMapper mapper)
+        public ProductsController(IProductServices productServices)
         {
-            _productsDataRepository = productsDataRepository;
             _productServices = productServices;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDto>> GetProducts() //JsonResults implementa IActionResults
+        public ActionResult<IEnumerable<ProductDto>> GetProducts()
         {
             var products = _productServices.GetProducts();
             return Ok(products);
@@ -33,43 +29,59 @@ namespace ChocoStorageAPI.Controllers
         public IActionResult GetProduct(int id)
 
         {
-            var product = _productsDataRepository.GetProduct(id);
-            if (product == null)
+            if (!_productServices.ProductExists(id))
                 return NotFound();
 
-            return Ok(_mapper.Map<ProductDto>(product));
+            var product = _productServices.GetProduct(id);
+            return Ok(product);
         }
 
         [HttpPost]
         public ActionResult<ProductDto> AddProduct(ProductToCreateDto product)
         {
-            var newProduct = _mapper.Map<Entities.Product>(product);
+            //agregar funcion productAlreadyExists en services (preguntar a nico como usar un tipo que admita 2)
+            var productExists = _productServices.GetProducts().FirstOrDefault(x => x.ProductType == product.ProductType && x.ChocolateType == product.ChocolateType && x.Weight == product.Weight);
+            var newProduct = _productServices.AddProduct(product);
+            if (productExists is not null)
+                return BadRequest("El producto ya existe");
 
-            _productsDataRepository.AddProduct(newProduct);
+            if (newProduct is null)
+                return BadRequest("No se pudo crear el producto");
 
-            _productsDataRepository.SaveChange();
-
-            var productToReturn = _mapper.Map<ProductDto>(newProduct);
-
-            return CreatedAtRoute(//CreatedAtRoute es para q devuelva 201, el 200 de post.
-                "GetProduct", //El primer parámetro es el Name del endpoint que hace el Get
-                new //El segundo los parametros q necesita ese endpoint
+            return CreatedAtRoute(
+                "GetProduct",
+                new
                 {
-                    id = productToReturn.ProductId
+                    id = newProduct.ProductId
                 },
-                productToReturn);//El tercero es el objeto creado. 
+                newProduct);
+        }
+
+        [HttpPut("{id}", Name = "UpdateProduct")]
+        public ActionResult UpdateProduct(ProductToUpdateDto productToUpd, int id)
+        {
+            if (!_productServices.ProductExists(id))
+                return NotFound();
+
+            var productExists = _productServices.GetProducts().FirstOrDefault(x => x.ProductType == productToUpd.ProductType && x.ChocolateType == productToUpd.ChocolateType && x.Weight == productToUpd.Weight);
+            if (productExists is not null)
+                return BadRequest("Ya existe un producto con esas características");
+
+            _productServices.UpdateProduct(productToUpd, id);
+            return NoContent(); 
         }
 
 
-        [HttpDelete("{id}")]
-        public ActionResult DeleteProduct(int productId)
+        [HttpDelete("{id}", Name = "DeleteProduct")]
+        public ActionResult DeleteProduct(int id)
         {
+            if (!_productServices.ProductExists(id))
+                return NotFound();
 
-            _productServices.DeleteProduct(productId);
+            _productServices.DeleteProduct(id);
 
             return NoContent();
         }
-
     }
 
 }
